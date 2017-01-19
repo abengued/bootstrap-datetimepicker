@@ -746,8 +746,15 @@
                         date: currentDate,
                         classNames: clsNames
                     });
-                    row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="' + clsNames.join(' ') + '">' +
-                        currentDate.date() + ' <br />' + currentDate.format('DDDD') + '</td>');
+                    if (options.showDOY) {
+                        row.append('<td data-action="selectDay" data-day="' + currentDate.date() + '" class="' + clsNames.join(' ') + '">' +
+                        '<span data-day="' + currentDate.date() + '" style="margin:0px;padding:0px;height:15px;width:25px;line-height:15px">' + currentDate.date() + '</span>' +
+                        '<br /> <span data-day="' + currentDate.date() + '" style="color:' + options.doyColor + ';margin:0px;padding:0px;height:15px;width:25px;line-height:15px">' +
+                        currentDate.format('DDDD') + '</td>');
+                    } else {
+                        row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="' + clsNames.join(' ') + '">' +
+                        currentDate.date() + '</td>');
+                    }
                     currentDate.add(1, 'd');
                 }
 
@@ -1047,7 +1054,7 @@
                     if ($(e.target).is('.new')) {
                         day.add(1, 'M');
                     }
-                    setValue(day.date(parseInt($(e.target).text(), 10)));
+                    setValue(day.date($(e.target).data('day')));
                     if (!hasTime() && !options.keepOpen && !options.inline) {
                         hide();
                     }
@@ -1950,6 +1957,39 @@
             return picker;
         };
 
+        picker.showDOY = function (showDOY) {
+            if (arguments.length === 0) {
+                return options.showDOY;
+            }
+
+            if (typeof showDOY !== 'boolean') {
+                throw new TypeError('showDOY() expects a boolean parameter');
+            }
+
+            options.showDOY = showDOY;
+
+            return picker;
+        };
+
+        picker.doyColor = function (doyColor) {
+            if (arguments.length === 0) {
+                return options.doyColor;
+            }
+
+            if (typeof doyColor !== 'string') {
+                throw new TypeError('toolbarPlacement() expects a string parameter');
+            }
+
+            var isValidHexColor = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(doyColor.toUpperCase());
+            if (!isValidHexColor) {
+                throw new TypeError('doyColor() parameter must be a valid HTML hex color. Example: #FF00FF');
+            }
+
+            options.doyColor = doyColor;
+
+            return picker;
+        };
+
         picker.toolbarPlacement = function (toolbarPlacement) {
             if (arguments.length === 0) {
                 return options.toolbarPlacement;
@@ -2504,6 +2544,8 @@
         daysOfWeekDisabled: false,
         calendarWeeks: false,
         viewMode: 'days',
+        showDOY: false,
+        doyColor: '#FF5500',
         toolbarPlacement: 'default',
         showTodayButton: false,
         showClear: false,
