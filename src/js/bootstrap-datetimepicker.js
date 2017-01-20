@@ -747,9 +747,9 @@
                         classNames: clsNames
                     });
                     if (options.showDOY) {
-                        row.append('<td data-action="selectDay" data-day="' + currentDate.date() + '" class="' + clsNames.join(' ') + '">' +
-                        '<span data-day="' + currentDate.date() + '" style="margin:0px;padding:0px;height:15px;width:25px;line-height:15px">' + currentDate.date() + '</span>' +
-                        '<br /> <span data-day="' + currentDate.date() + '" style="color:' + options.doyColor + ';margin:0px;padding:0px;height:15px;width:25px;line-height:15px">' +
+                        row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="' + clsNames.join(' ') + '">' +
+                        '<span data-day="' + currentDate.format('L') + '" style="margin:0px;padding:0px;height:15px;width:25px;line-height:15px">' + currentDate.date() + '</span>' +
+                        '<br /> <span data-day="' + currentDate.format('L') + '" style="color:' + options.doyColor + ';margin:0px;padding:0px;height:15px;width:25px;line-height:15px">' +
                         currentDate.format('DDDD') + '</td>');
                     } else {
                         row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="' + clsNames.join(' ') + '">' +
@@ -1054,7 +1054,14 @@
                     if ($(e.target).is('.new')) {
                         day.add(1, 'M');
                     }
-                    setValue(day.date($(e.target).data('day')));
+
+                    // Setting date via _d for now until momentjs provides better
+                    // documentation for setting a new date.
+                    // not recommended to use _d, but in this case there is no obvious harm
+                    day._d = new Date($(e.target).data('day'));
+
+                    setValue(day);
+
                     if (!hasTime() && !options.keepOpen && !options.inline) {
                         hide();
                     }
