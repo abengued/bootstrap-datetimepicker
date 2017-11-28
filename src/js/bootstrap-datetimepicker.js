@@ -96,14 +96,14 @@
             horizontalModes = ['left', 'right', 'auto'],
             toolbarPlacements = ['default', 'top', 'bottom'],
             keyMap = {
-//                 'up': 38,
-//                 38: 'up',
-//                 'down': 40,
-//                 40: 'down',
-//                 'left': 37,
-//                 37: 'left',
-//                 'right': 39,
-//                 39: 'right',
+                // 'up': 38,
+                // 38: 'up',
+                // 'down': 40,
+                // 40: 'down',
+                // 'left': 37,
+                // 37: 'left',
+                // 'right': 39,
+                // 39: 'right',
                 'tab': 9,
                 9: 'tab',
                 'escape': 27,
@@ -966,8 +966,8 @@
             },
 
             parseInputDate = function (inputDate) {
-                if( typeof inputDate == "string" && /^([0-9]{4}-[0-9]{3})$/.test(inputDate)) {
-                    inputDate = inputDate + "-00:00:00";
+                if (typeof inputDate === 'string' && /^([0-9]{4}-[0-9]{3})$/.test(inputDate)) {
+                    inputDate = inputDate + '-00:00:00';
                 }
                 if (options.parseInputDate === undefined) {
                     if (!moment.isMoment(inputDate) || inputDate instanceof Date) {
