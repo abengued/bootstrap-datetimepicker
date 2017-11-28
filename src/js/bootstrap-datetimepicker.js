@@ -966,6 +966,9 @@
             },
 
             parseInputDate = function (inputDate) {
+                if( typeof inputDate == "string" && /^([0-9]{4}-[0-9]{3})$/.test(inputDate)) {
+                    inputDate = inputDate + "-00:00:00";
+                }
                 if (options.parseInputDate === undefined) {
                     if (!moment.isMoment(inputDate) || inputDate instanceof Date) {
                         inputDate = getMoment(inputDate);
